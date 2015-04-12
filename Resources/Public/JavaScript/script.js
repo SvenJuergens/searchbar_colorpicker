@@ -18,7 +18,6 @@ $(function(){
 });
 
 function changeContent(element){
-console.log(element);
 	var newContent = element.data('content');
 	var oldContent = element.text();
 	element.text(newContent);

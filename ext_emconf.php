@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'title' => 'Searchbar: Color Picker',
 	'description' => 'a HTML5 Color Picker for ext:searchbar',
 	'category' => 'plugin',
-	'version' => '1.2.0',
+	'version' => '2.0.0',
 	'state' => 'stable',
 	'uploadfolder' => 0,
 	'createDirs' => '',
@@ -26,7 +26,8 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' => 
 		array (
-			'searchbar' => '',
+			'typo3' => '6.2.0-7.1.99',
+			'searchbar' => '2.0.0-2.9.99',
 		),
 		'conflicts' => 
 		array (

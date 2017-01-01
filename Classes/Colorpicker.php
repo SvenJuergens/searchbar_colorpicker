@@ -16,6 +16,7 @@ namespace SvenJuergens\SearchbarColorpicker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Html\HtmlParser;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class Colorpicker
@@ -41,7 +42,6 @@ class Colorpicker
     public function prepareOutput($searchEngineInput)
     {
         $imageNotAllowed = '';
-        $subPart = GeneralUtility::getUrl($this->templateFile);
         $path = ExtensionManagementUtility::siteRelPath('searchbar_colorpicker');
 
         //check User Input
@@ -57,13 +57,22 @@ class Colorpicker
         } else {
             $imageSrc = 'data:image/jpeg;base64,' . base64_encode(GeneralUtility::getUrl($imageURL));
         }
-
-        $markerArray = array(
+        /** @var StandaloneView $View */
+        $View = GeneralUtility::makeInstance(StandaloneView::class);
+        $View->setTemplatePathAndFilename($this->templateFile);
+        $View->assignMultiple([
             'path' => $path,
-            'imagesrc' => GeneralUtility::quoteJSvalue($imageSrc),
+            'imageSrc' => GeneralUtility::quoteJSvalue($imageSrc),
             'imageNotAllowed' => $imageNotAllowed ? $imageNotAllowed : ''
-        );
-        return HtmlParser::substituteMarkerArray($subPart, $markerArray, '###|###', true, true);
+        ]);
+        return $View->render();
+
+//        $markerArray = array(
+//            'path' => $path,
+//            'imagesrc' => GeneralUtility::quoteJSvalue($imageSrc),
+//            'imageNotAllowed' => $imageNotAllowed ? $imageNotAllowed : ''
+//        );
+//        return HtmlParser::substituteMarkerArray($subPart, $markerArray, '###|###', true, true);
     }
 
     public function checkInput($input)
